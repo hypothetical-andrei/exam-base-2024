@@ -48,9 +48,15 @@ const logout = async (req, res, next) => {
 
 const register = async (req, res, next) => {
   try {
+    if(await models.User.findOne({ where: { email: req.body.email } })) {
+      res.status(400).json({ message: 'Email already in use' })
+      return
+    }
+
     const user = await models.User.create({
       email: req.body.email,
-      password: await bcrypt.hash(req.body.password, 10)
+      passwordHash: await bcrypt.hash(req.body.password, 10),
+      type: req.body.type
     })
     res.status(201).json(user)
   } catch (err) {

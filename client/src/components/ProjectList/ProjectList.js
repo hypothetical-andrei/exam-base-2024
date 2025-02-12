@@ -88,6 +88,8 @@ const ProjectList = () => {
         onPageChange={(pageNumber) => setPageNumber(pageNumber)}
         onPageSizeChange={(pageSize) => setPageSize(pageSize)}
         totalRecords={globalState.project.count}
+        page={pageNumber}
+        setPage={setPageNumber}
       />
       <div className='footer'>
         <button onClick={() => navigate('/projects/new')}>

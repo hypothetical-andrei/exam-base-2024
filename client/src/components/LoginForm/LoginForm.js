@@ -8,6 +8,7 @@ const LoginForm = () => {
   const { user } = useContext(AppContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [type, setType] = useState('regular')
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -21,6 +22,10 @@ const LoginForm = () => {
       navigate(location.state.from)
     })
   }, [])
+
+  const handleRegisterClick = () => {
+    user.register(email, password, type)
+  }
 
   return (
     <div className='login-form'>
@@ -39,6 +44,26 @@ const LoginForm = () => {
           onChange={e => setPassword(e.target.value)}
         />
         <button onClick={handleLoginClick}>Login</button>
+        <button onClick={handleRegisterClick}>Register</button>
+        <div>
+          <label>
+            <input
+              type='radio'
+              value='regular'
+              defaultChecked={true}
+              onChange={() => setType('regular')}
+            />
+            Regular
+          </label>
+          <label>
+            <input
+              type='radio'
+              value='admin'
+              onChange={() => setType('admin')}
+            />
+            Admin
+          </label>
+        </div>
       </div>
     </div>
   )
