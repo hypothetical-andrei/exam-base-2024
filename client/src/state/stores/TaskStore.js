@@ -166,6 +166,98 @@ class TaskStore {
       this.emitter.emit("UPDATE_STATUS_ERROR");
     }
   }
+
+  async getComments(state, projectId, taskId) {
+    try {
+      const response = await fetch(
+        `${SERVER}/api/users/${state.user.data.id}/projects/${projectId}/tasks/${taskId}/comments`,
+        {
+          headers: {
+            authorization: state.user.data.token,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw response;
+      }
+      const content = await response.json();
+      this.selectedTask.comments = content;
+      this.emitter.emit("GET_COMMENTS_SUCCESS");
+    } catch (err) {
+      console.warn(err);
+      this.emitter.emit("GET_COMMENTS_ERROR");
+    }
+  }
+
+  // Store - adaugam un comentariu pentru un task
+  async addComment(state, projectId, taskId, content) {
+    try {
+      const response = await fetch(
+        `${SERVER}/api/users/${state.user.data.id}/projects/${projectId}/tasks/${taskId}/comments`,
+        {
+          method: "POST",
+          headers: {
+            authorization: state.user.data.token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
+      if (!response.ok) {
+        throw response;
+      }
+      await this.getComments(state, projectId, taskId);
+    } catch (err) {
+      console.warn(err);
+      this.emitter.emit("ADD_COMMENT_ERROR");
+    }
+  }
+
+  // Store - stergem un comentariu pentru un task
+  async deleteComment(state, projectId, taskId, commentId) {
+    try {
+      const response = await fetch(
+        `${SERVER}/api/users/${state.user.data.id}/projects/${projectId}/tasks/${taskId}/comments/${commentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            authorization: state.user.data.token,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw response;
+      }
+      await this.getComments(state, projectId, taskId); // Refresh comments list
+    } catch (err) {
+      console.warn(err);
+      this.emitter.emit("DELETE_COMMENT_ERROR");
+    }
+  }
+
+  // Store - update comment
+  async updateComment(state, projectId, taskId, commentId, content) {
+    try {
+      const response = await fetch(
+        `${SERVER}/api/users/${state.user.data.id}/projects/${projectId}/tasks/${taskId}/comments/${commentId}`,
+        {
+          method: "PUT",
+          headers: {
+            authorization: state.user.data.token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
+      if (!response.ok) {
+        throw response;
+      }
+      await this.getComments(state, projectId, taskId);
+    } catch (err) {
+      console.warn(err);
+      this.emitter.emit("UPDATE_COMMENT_ERROR");
+    }
+  }
 }
 
 export default TaskStore;
