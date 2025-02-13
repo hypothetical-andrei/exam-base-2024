@@ -35,8 +35,7 @@ User.hasOne(Task);
 
 try {
   await sequelize.sync({
-    // alter: true
-    force: true,
+    alter: true,
   });
 } catch (err) {
   console.warn(err);
