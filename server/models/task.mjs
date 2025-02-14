@@ -10,20 +10,24 @@
  * @property {string} status - The current status of the task. Defaults to 'open'.
  */
 export default (sequelize, DataTypes) => {
-  return sequelize.define('task', {
+  return sequelize.define("task", {
     title: {
-      type:
-      DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     status: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'open'
-    }
-  })
-}
+      defaultValue: "open",
+    },
+    label: {
+      type: DataTypes.ENUM("bug", "feature", "urgent"),
+      allowNull: false,
+      defaultValue: "bug",
+    },
+  });
+};

@@ -29,6 +29,10 @@ const TaskList = () => {
           <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Status</th>
+            <th>Label</th>
+            <th>Assigned To</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
