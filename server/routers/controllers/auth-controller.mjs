@@ -50,7 +50,8 @@ const register = async (req, res, next) => {
   try {
     const user = await models.User.create({
       email: req.body.email,
-      password: await bcrypt.hash(req.body.password, 10)
+      passwordHash: await bcrypt.hash(req.body.password, 10),
+      type: 'regular'
     })
     res.status(201).json(user)
   } catch (err) {

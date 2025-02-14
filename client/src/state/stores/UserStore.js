@@ -7,6 +7,27 @@ class UserStore {
     this.emitter = new EventEmitter()
   }
 
+  async register (email, password) {
+    try {
+      const response = await fetch(`${SERVER}/auth/register`, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      })
+      if (!response.ok) {
+        throw response
+      }
+      this.emitter.emit('REGISTER_SUCCESS')
+    } catch (err) {
+      console.warn(err)
+      this.emitter.emit('REGISTER_ERROR')
+    }
+  }
   async login (email, password) {
     try {
       const response = await fetch(`${SERVER}/auth/login`, {

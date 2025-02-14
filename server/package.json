@@ -1,7 +1,8 @@
 {
     "type": "module",
     "scripts": {
-        "start": "npx nodemon server.mjs"
+        "start": "npx nodemon server.mjs",
+        "seed": "node data-preload.mjs"
     },
     "dependencies": {
         "bcrypt": "^5.1.1",

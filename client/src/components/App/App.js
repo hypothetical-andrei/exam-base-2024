@@ -1,6 +1,6 @@
 import './App.css'
-import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import React, {useEffect, useState} from 'react'
+import {HashRouter as Router, Route, Routes} from 'react-router-dom'
 import AppContext from '../../state/AppContext'
 
 import AuthGuard from '../AuthGuard'
@@ -17,6 +17,7 @@ import ProjectStore from '../../state/stores/ProjectStore'
 import TaskStore from '../../state/stores/TaskStore'
 import UserSuggestionStore from '../../state/stores/UserSuggestionStore'
 import ErrorDisplay from '../ErrorDisplay'
+import RegisterForm from "../RegisterForm";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -60,6 +61,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path='/login' element={<LoginForm />} />
+          <Route path='/register' element={<RegisterForm/>} />
           <Route
             path='/' element={
               <AuthGuard isAuthenticated={isAuthenticated}>

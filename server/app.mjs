@@ -10,13 +10,14 @@ const corsOptions = {
   optionsSuccessStatus: 200
 }
 
-// initial middlerware
+// initial middleware
 app.use(cors(corsOptions))
 app.use(express.json())
 
 // routers
 app.use('/auth', routers.auth)
 app.use('/api', routers.api)
+app.use('/admin', routers.admin)
 
 // error middleware
 app.use(middleware.genericError)
