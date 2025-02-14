@@ -105,8 +105,36 @@ const deleteOwnedProject = async (req, res, next) => {
 				type: 'project'
 			}
 		})
+    const tasks = await models.Task.findAll({
+      where: {
+        projectId: req.params.pid
+      }
+    })
+
+    if (tasks) {
+
+        // find all the permissions for the tasks
+        const taskPermissions = await models.Permission.findAll({
+            where: {
+                forResource: {
+                    [Op.in]: tasks.map(task => task.id)
+                },
+                type: 'task'
+            }
+        })
+        // delete all the permissions for the tasks
+        for (let i = 0; i < taskPermissions.length; i++) {
+            const taskPermission = taskPermissions[i]
+            await taskPermission.destroy()
+        }
+        // delete all the tasks
+        for (let i = 0; i < tasks.length; i++) {
+            const task = tasks[i]
+            await task.destroy()
+        }
+    }
     if (project && permission) {
-    	await permission.destroy()
+      await permission.destroy()
       await project.destroy()
       res.status(204).end()
     } else {
