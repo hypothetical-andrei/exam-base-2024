@@ -18,7 +18,11 @@ const LoginForm = () => {
   useEffect(() => {
     user.emitter.addListener('LOGIN_SUCCESS', () => {
       setIsAuthenticated(true)
-      navigate(location.state.from)
+      if(location.state && location.state.from){
+        navigate(location.state.from)
+      }else{
+        navigate('/')
+      }
     })
   }, [])
 
